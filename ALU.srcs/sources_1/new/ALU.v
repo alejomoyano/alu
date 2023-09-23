@@ -29,8 +29,8 @@ assign o_carry = res[SIZE_BUS];
 
 always @(*) begin
     case(i_op) 
-        ADD     :   res = $signed(i_a) + $signed(i_b); 
-        SUB     :   res = $signed(i_a) - $signed(i_b);
+        ADD     :   res = i_a + i_b; 
+        SUB     :   res = i_a - i_b;
         AND     :   res = i_a & i_b;
         OR      :   res = i_a | i_b;
         XOR     :   res = i_a ^ i_b;
