@@ -24,7 +24,7 @@ localparam SRA  = 6'b000011;
 localparam SRL  = 6'b000010;
 localparam NOR  = 6'b000111;
 
-assign o_zero = ~|res;
+assign o_zero = ~|o_display;
 assign o_carry = res[SIZE_BUS];
 
 always @(*) begin
@@ -34,7 +34,7 @@ always @(*) begin
         AND     :   res = i_a & i_b;
         OR      :   res = i_a | i_b;
         XOR     :   res = i_a ^ i_b;
-        SRA     :   res = i_a >>> i_b;
+        SRA     :   res = $signed(i_a) >>> i_b;
         SRL     :   res = i_a >> i_b;
         NOR     :   res = ~(i_a | i_b);
         default :   res = {SIZE_BUS{1'b0}};
