@@ -6,7 +6,7 @@ localparam SIZE_OP = 6;
 localparam SIZE_BUS = 8;
 
 reg     [SIZE_BUS - 1:0]    i_input;
-reg                         i_a_btn, i_b_btn, i_op_btn, i_clk;
+reg                         i_a_btn, i_b_btn, i_op_btn, i_clk = 0;
 wire    [SIZE_BUS - 1:0]    o_display;
 wire                        o_zero, o_carry;
 
@@ -36,21 +36,30 @@ top # (
 
 initial begin
     // ingresamos el primer operando
-    #5 i_input = 32;
-    #5 i_a_btn = 1;
-    #5 i_a_btn = 0;
+    i_input = 8'b05;
+    #5 
+    i_a_btn = 1;
+    #5 
+    i_a_btn = 0;
     // ingresamos el segundo operando
-    #5 i_input = 2;
-    #5 i_b_btn = 1;
-    #5 i_b_btn = 0;
+    #5 
+    i_input = 8'h02;
+    #5 
+    i_b_btn = 1;
+    #5 
+    i_b_btn = 0;
     // ingresamos la operacion
-    #5 i_input = ADD;
-    #5 i_op_btn = 1;
-    #5 i_op_btn = 0;
+    #5 
+    i_input = ADD;
+    #5 
+    i_op_btn = 1;
+    #5 
+    i_op_btn = 0;
+    #10
     $finish;
 end
 
-always @(*) begin
+always begin
     #1
     i_clk = ~i_clk;
 end
