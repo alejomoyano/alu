@@ -5,12 +5,14 @@ module ALU #(
     input   [SIZE_BUS - 1:0]    i_a,
     input   [SIZE_BUS - 1:0]    i_b,
     input   [SIZE_OP - 1:0]     i_op,
-    input                       i_clk; 
-    output                      o_display // salida los leds
+    input                       i_clk, 
+    output  [SIZE_BUS - 1:0]    o_display, // salida los leds
+    output                      o_zero,
+    output                      o_carry
 );
 
-reg [SIZE_BUS - 1:0]    res;
-assign o_display = res;
+reg [SIZE_BUS : 0]    res;
+assign o_display[SIZE_BUS - 1 : 0] = res[SIZE_BUS - 1 : 0];
 
 localparam ADD  = 6'b100000;
 localparam SUB  = 6'b100010;
@@ -21,8 +23,11 @@ localparam SRA  = 6'b000011;
 localparam SRL  = 6'b000010;
 localparam NOR  = 6'b000111;
 
+assign o_zero = {res == 0} ? 1'b1 : 1'b0;
+assign o_carry = res[SIZE_BUS];
+
 always @(*) begin
-    case(OP) 
+    case(i_op) 
         ADD     :   res = i_a + i_b; 
         SUB     :   res = i_a - i_b;
         AND     :   res = i_a & i_b;
