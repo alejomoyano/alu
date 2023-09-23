@@ -2,12 +2,13 @@
 
 module testbench;
 
-localparam SIZE_OP = 6,
-localparam SIZE_BUS = 8
+localparam SIZE_OP = 6;
+localparam SIZE_BUS = 8;
 
-reg     [SIZE - 1:0]    i_input;
-reg                     i_a_btn, i_b_bnt, i_op_btn, i_clk;
-wire    [SIZE - 1:0]    o_display;
+reg     [SIZE_BUS - 1:0]    i_input;
+reg                         i_a_btn, i_b_btn, i_op_btn, i_clk;
+wire    [SIZE_BUS - 1:0]    o_display;
+wire                        o_zero, o_carry;
 
 localparam ADD  = 6'b100000;
 localparam SUB  = 6'b100010;
@@ -18,17 +19,19 @@ localparam SRA  = 6'b000011;
 localparam SRL  = 6'b000010;
 localparam NOR  = 6'b000111;
 
-top (
-    .SIZE_OP(SIZE_OP)
+top # (
+    .SIZE_OP(SIZE_OP),
     .SIZE_BUS(SIZE_BUS)
-)
+) u_top
 (
     .i_input(i_input),
     .i_a_btn(i_a_btn),
-    .i_b_bnt(i_b_bnt),
+    .i_b_btn(i_b_btn),
     .i_op_btn(i_op_btn),
     .i_clk(i_clk),
-    .o_display(o_display)
+    .o_display(o_display),
+    .o_zero(o_zero),
+    .o_carry(o_carry)
 );
 
 initial begin
@@ -38,19 +41,16 @@ initial begin
     #5 i_a_btn = 0;
     // ingresamos el segundo operando
     #5 i_input = 2;
-    #5 i_a_btn = 1;
-    #5 i_a_btn = 0;
+    #5 i_b_btn = 1;
+    #5 i_b_btn = 0;
     // ingresamos la operacion
     #5 i_input = ADD;
-    #5 i_op_btn = 1;
-    #5 i_op_btn = 0;
-    // opreamos
     #5 i_op_btn = 1;
     #5 i_op_btn = 0;
     $finish;
 end
 
-always begin
+always @(*) begin
     #1
     i_clk = ~i_clk;
 end

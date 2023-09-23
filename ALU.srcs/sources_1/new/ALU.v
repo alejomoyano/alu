@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module ALU #(
     parameter SIZE_OP = 6,
     parameter SIZE_BUS = 8
@@ -23,13 +25,13 @@ localparam SRA  = 6'b000011;
 localparam SRL  = 6'b000010;
 localparam NOR  = 6'b000111;
 
-assign o_zero = {res == 0} ? 1'b1 : 1'b0;
+assign o_zero = ~|res;
 assign o_carry = res[SIZE_BUS];
 
 always @(*) begin
     case(i_op) 
-        ADD     :   res = i_a + i_b; 
-        SUB     :   res = i_a - i_b;
+        ADD     :   res = $signed(i_a) + $signed(i_b); 
+        SUB     :   res = $signed(i_a) - $signed(i_b);
         AND     :   res = i_a & i_b;
         OR      :   res = i_a | i_b;
         XOR     :   res = i_a ^ i_b;
