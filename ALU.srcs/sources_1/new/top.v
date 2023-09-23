@@ -10,13 +10,10 @@ module top #(
 reg     [SIZE_BUS - 1:0]    A, B;
 reg     [SIZE_OP - 1:0]     OP;
 
-always @(*) begin
-    if(i_a_btn)
-        A = i_input;
-    if(i_b_btn)
-        B = i_input;
-    if(i_op_btn)
-        OP = i_input[SIZE_OP - 1:0];
+always @(posedge i_clk) begin
+    A = i_a_btn == 1 ? i_input : A;
+    B = i_b_btn == 1 ? i_input : B;
+    OP = i_op_btn == 1 ? i_input[SIZE_OP - 1:0] : OP;
 end
 
 
@@ -28,7 +25,6 @@ ALU #(
     .i_a(A),
     .i_b(B),
     .i_op(OP),
-    .i_clk(i_clk),
     .o_display(o_display),
     .o_carry(o_carry),
     .o_zero(o_zero)

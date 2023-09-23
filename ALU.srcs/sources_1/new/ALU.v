@@ -7,7 +7,6 @@ module ALU #(
     input   [SIZE_BUS - 1:0]    i_a,
     input   [SIZE_BUS - 1:0]    i_b,
     input   [SIZE_OP - 1:0]     i_op,
-    input                       i_clk, 
     output  [SIZE_BUS - 1:0]    o_display, // salida los leds
     output                      o_zero,
     output                      o_carry
